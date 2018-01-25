@@ -17,13 +17,13 @@
 * UTM : United Threat Management, approche de la gestion de la sécurité qui permet à un administrateur de suivre et de gérer un large éventail d'applications de sécurité et de composants d'infrastructure à partir d'une seule et même console.
 * Fortinet : Entreprise américaine fournissant des équipements de protection du réseau (firewall, wi-fi sécurisés, etc)
 * Netfilter : Module Linux permettant de filtrer et de manipuler les paquets sous-réseau passant dans le système
-* Appliance : 
-* IP table :
-* Kerio :
-* check point :
-* Pfsense :
-* IPCop :
-* IPFire :
+* Appliance
+* IP table : Interface en ligne de commande permettant de configurer Netfilter
+* Kerio : Entreprise spécialisée dans la protection des échanges (messgerie, pare-feu et telephone)
+* check point : Founisseur mondial de solution de sécurité des systèmes d'information
+* Pfsense : Pare-Feu open source basé sur le systeme d'exploitation freeBSD, disponible via license apache
+* IPCop : Firewall Linux
+* IPFire : Distribution de linux faisant office de pare-feu
 
 ## Contexte :
 
@@ -78,13 +78,39 @@ Sécurité
 
 ### Études
 
-####**ACLs**
+#### **ACLs**
+Acces Control List, liste de règles permettant de filtrer ou d'autoriser le trafic au travers d'un routeur selon certain critères comme l'IP Source, l'IP Destination, le port source/destination, protocle, ...)  
+Dès qu'une règle correspond au trafic, l'action est appliquée (deny ou permit) et le reste de l'ACL n'est pas analysée. Par défaut, si aucune règle ne correspond, le paquet est rejeté.  
+	 - ACL numérique standard : contient l'action, l'adresse de réseau et le wildcard mask correspondant uniquement.  
+	 Cmd, en conf t : 'access-list *intDeL'accesList* *permit/deny* *adresse.ip* *wildcard mask*'  
+	 - ACL numérique étendue : contient l'action à effectuer, le protocole, l'IP source, le wildcard, le port source, l'IP de destination, le wildcard, le port de destination, des options.  
+	 Cmd, en conf t : 'access-list *intDeL'accesList* *permit/deny* *(provenance) adresse+wildcard /* Host *Adresse(d'un hote) / Any (n'importe)* *(destination) adresse+wildcard /* Host *Adresse(d'un hote) / Any (n'importe)*'  
+
+ Les nombres à attribuer à une liste ne sont pas aléatoires, ils correspondent à une réglementation : 
+ 	 - Int <1 à 99> = ACL Standard
+ 	 - Int <100 à 199> = ACL Etendue
+ 	 - Int <1300 à 1999> = ACL IP Standard
+ 	 - Int <2000 à 2699> = ACL IP Etendue
+
+ Nb : on peut également définir des ACL ayant un nom et pas un numéro, cmd : 'ip access-list standard *name*; *actionAEffectuer* *ip.destination* *wildcard*' = ACL Standard  
+ cmd : 'ip access-list extended *name*; *permit/deny* *(provenance) adresse+wildcard /* Host *Adresse(d'un hote) / Any (n'importe)* *(destination) adresse+wildcard /* Host *Adresse(d'un hote) / Any (n'importe)*' = ACL Entendue
+
+ Pour contrôler la liste des ACL on utilise la cmd 'show access-lists' en mode enable
+
+ On doit ensuite appliquer l'ACL à une interface :  
+ R1(config)#interface fastethernet 0/0  
+ R1(config-if)#ip access-group *numéroOuNomdeL'ACL* in = ACL appliquée en entrée  
+ OU  
+ R1(config-if)#ip access-group *numéroOuNomdeL'ACL* out = ACL appliquée en sortie
 
 ####**NGFW**
 
+
 ####**Firewalls (fonctionnement)**
 
+
 ####**DMZ**
+
 
 ####**Différents périmètres de défense**
 
