@@ -2,8 +2,8 @@
 
 ## Mots clés :
 
-* DMZ :
-* Pare-feu :
+* DMZ : (Demilitarized Zone) un sous-réseau, séparé du réseau local et isolé de celui-ci et d'Internet par un pare feu. Il contient des machines suceptible d'être attaquées via Internet. De fait, un pirate n'aura accès qu'à cette zone démilitarisée en ca de compromission d'un ordinateur.
+* Pare-feu : Symbolisé par un mur de briques
 * NGFW :
 * SI :
 * DSI :
