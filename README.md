@@ -107,7 +107,9 @@ Dès qu'une règle correspond au trafic, l'action est appliquée (deny ou permit
 
 
 ####**Firewalls (fonctionnement)**
-
+Les différents types de filtrage :
+	 - Le filtrage simple de paquet (Stateless) :  
+	 Méthode la 
 
 ####**DMZ**
 
