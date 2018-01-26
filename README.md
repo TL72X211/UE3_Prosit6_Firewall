@@ -149,6 +149,8 @@ Les différents types d'attaques :
 [Site](http://www.frameip.com/firewall/#4-8211-attaques-outils-defenses) contenant des informations diverses sur les types d'attaques et les mode de découverte des routeurs sur un réseau
 
 ####**DMZ**
+Demilitarized Zone : Contient les services (souvent serveurs) devant pouvoir être accédés depuis internet (serveur WEB, serveur de messagerie). Séparés du réseau interne de l'entreprise qui lui doit rester inaccessible depuis l'extérieur.  
+On configure donc le pare-feu de manière à ce qu'il ne laisse pas passer les paquets en direction du réseau internet et qu'on laisse entrer les paquets (après vérification) dans la zone démilitarisée.
 
 
 ####**Différents périmètres de défense**
