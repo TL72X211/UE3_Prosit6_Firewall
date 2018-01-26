@@ -154,7 +154,15 @@ On configure donc le pare-feu de manière à ce qu'il ne laisse pas passer les p
 
 
 ####**Différents périmètres de défense**
+Défense périmétrique : Constite à bloquer grâce à des pare-feux et de règles de routage les accès non autorisées au réseau et aux systemes de l'entreprise. Avec la prolifération des nouveaux équipements de connexion au réseau (ordi portable, smartphone, tablettes, ...) cette protection est désormais insuffisante.
 
+Défense en profondeur : Listes de précaution à prendre pour arréter une intrusion après qu'elle est passé le périmètre extérieur (ce qui fini **toujours** par arriver) :
+	 - Les ordinateurs inconnus (visiteurs, machines privées) sont cantonnées dans un sous-réseau virtuel aux droits d'accès restreint
+	 - Les utiliseurs de systèmes sensibles ne sont pas administrateurs de leurs ordinateurs
+	 - Les connexions aux serveurs de systèmes sensibles ne sont autorisées ni avec des comptes privilégiés ni à distance
+	 - Utiliser des système d'aythentification robuste, comme Kerberos
+
+Ces mesures ont un coût organisationnel et technique non négligeable et ne doivent de fait être appliquées qu'au systèmes le nécessitant. Comme partout, le mieux et l'ennemie du bien, des règles trop contraignantes pour les utilisateurs seraient contournées et nuiraient au SI.
 
 
 ### Réalisations
