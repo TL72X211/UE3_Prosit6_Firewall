@@ -104,7 +104,11 @@ Dès qu'une règle correspond au trafic, l'action est appliquée (deny ou permit
  R1(config-if)#ip access-group *numéroOuNomdeL'ACL* out = ACL appliquée en sortie
 
 ####**NGFW**
-
+NGFW = New Generation FireWall & UTM = Unified Threat Management  
+Ces deux termes désignes deux types de protection réseau, le premier plus personnalisable, le second plus simplement administrable et déployable.  
+NGFW ont les fonctions suivantes :  
+Firewall ; SPI ; VPN (chiffrement et accélération) ; Routage ; Multicast ; Filtrage Web ; Mail Security ; Antivirus ; NAT ; VoIP "Hybrid networking" ; Proxy ; cache ; streaming.  
+UTM sont des équipements, boitiers multifonctions, permettant une management des solutions de sécurités beaucoup plus simple. 
 
 ####**Firewalls (fonctionnement)**
 Les différents types de filtrage :
