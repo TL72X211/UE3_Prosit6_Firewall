@@ -3,28 +3,28 @@
 
 ## Mots clés :
 
-* DMZ :
-* Pare-feu :
-* NGFW :
-* SI :
-* DSI :
-* Carte heuristique :
-* Firewalling :
-* Access list :
-* Système de gestion unifiée :
-* Sécurisation périmétrique :
-* Sécurité en profondeur :
-* ASA :
-* UTM :
-* Fortinet :
-* Net filter :
-* Appliance :
-* IP table :
-* Kerio :
-* check point :
-* Pfsense :
-* IPCop :
-* IPFire :
+* DMZ : Zone Démilitarisée (Définit #10)
+* Pare-feu : Logiciel / matériel permettant de faire respecter la politique de sécurité du réseau. (mûr de brique)
+* NGFW : Pare-Feu nouvelle génération 
+* SI : Système d'information, c'est l'ensemble des ressources qui permettent de collecter, stocker, traiter l'information. Une partie est le personnel (liées au SI) et l'autre est la technologie (hardware et software).
+* DSI : Directeur des système d'information, c'est le responsable de l'ensemble des composants matériels (postes, serverus, équipements réseaux, stockage, sauvegarde et logiciels du SI)
+* Carte heuristique : ou carte mentale, est un schéma reflétant le fonctionnement de la pensé. C'est un diagramme qui représente l'organisation des liens sémantiques entre idées et concepts.
+* Firewalling : Faire du firewall
+* Access list :  Liste d'accès -> Ici ACL : Liste @ & ports autorisés / interdits par un pare-feu.
+* Système de gestion unifiée : UTM (Unified thread management) décrit les pare-feu réseaux qui possèdent des fonctionnalités supplémentaires qui ne sont pas disponible dans les pare-feu traditionnel.
+* Sécurisation périmétrique : cf 9
+* Sécurité en profondeur : cf 9
+* ASA : Arbre Syntaxique Absrait, arbre dont les noeuds internes sont marqués par des opérateurs donc les noeuds externes (feuilles) représentent les opérandes.
+* UTM : Unified Threat Management
+* Fortinet : Multinationale américaine dont le siège social est en Californie. Commercialise principale de la cyber-sécurité (pare-feu / antivirus) -> Quatrième au rang mondial en chiffre d'affaire.
+* Net filter : Frameworl implémentant un pare-feu au sein du noyau linux. 
+* Appliance : Application ?
+* IP table : Logiciel libre de de Linux, grâce auquel un admin peut configurer les chaînes et règles dans pare-feu. Situé dans /usr/sbin/iptables.
+* Kerio : Entreprise spécialisé dans les logiciels, pour les petites et moyennes organisations. HQ en Californie.
+* check point : Fournisseur mondial de solutions de sécurités informatiques, pionnier des pare-feu avec FireWall 1 et sa technologie "stateful inspection"
+* Pfsense : Routeur / Pare feu Open Source de FreeBSD. [...]
+* IPCop : Distribution Linux qui fournit un pare-feu  simple à gérer sur un PC. (Famille, petites ou moyennes entreprises), offrant DMZ ainsi que VPN
+* IPFire : Distribution Linux, "Linux From Scratch" faisant office de pare-feu.
 
 ## Contexte :
 
@@ -152,6 +152,10 @@ http://www.frameip.com/wp-content/uploads/firewall-filtrage-applicatif-choisir.j
 
 Il faut protéger son proxy par un stateful inspection, et éviter d'installer les deux types de filtrage sur un même firewall. Permet de se protéger contre l'ARP spoofing.
 
+Choisir sa politique :
+
+- Tout autoriser sauf ce qui est dangereux (beaucoup trop laxiste, laisse passer l'imagination, à éviter ABSOLUMENT)
+- Tout interdire sauf ce dont on a besoin : Beaucoup plus sécuritaire. Le firewall est pour se protéger des zones extérieures. Cependant, plus on autorise, plus on est vulnérable.
 
 ## 2  - Les différents types de firewall
 
@@ -241,3 +245,177 @@ Des outils comme **Tripwire** permet de vérifier l'intégrité des commandes.
 Les rootkit noyaux sont beaucoup plus difficiles à détecter, ils modifient le noyaux, il peut rendre invisible un processus à chaque appel, modifie les routines de journalisation du système, masque les connexions réseau...
 
 L'idéal est de patcher son noyau pour empêcher l'installation d'un rootkit et de désactiver les LKM (Loadable Kernel Modules) qui permettent au root d'introduire un nouveau code dans le système d'exploitation pendant que ce dernier est en cours d'exécution). Il existe également un outil Linux pour faire de nombreuses vérifications "modules" de backdoor, nomée 'rkscan', et qui vérifie les versions de rootkits les plus populaires.
+
+## 5 - Quelques attaques à connaître :
+
+- IP Spoofing : Modifier les paquets IP pour passer le firewall. => Contrer avec IPSec qui va chiffrer les entêtes des paquets
+- DOS et DDOS : Envoyer le plus de paquets possibles vers un serveur générant beaucoup de trafic inutile, bloquant l'accès aux utilisateurs normaux, provient la majorité d'un virus, très difficilement évitable. Certains firewall peuvent s'en protéger.
+- Port Scanning : Consiste à déterminer quels ports sont ouverts afin de déterminer les vulnérabilité du système. Le Firewall les bloques en les annonçants comme "fermé. Il suffit de bloquer l'adresse qui fait le port scanning.
+- Exploit : Exploiter les vulnéaribilités des logiciels installés, comme un serveru HTTP, FTP... La seule solution est les MAJ logiciel au fur et à mesure des découvertes.
+
+
+## 6 - Connaître les pares-feu :
+
+
+**Versions .Libre :**
+- iptables / Linux Netfilter :
+	- Liste le contenu des règles
+	- Rapide (ne regarde que les header)
+	- Modifier facilement
+- Linux IpChains (Pare-feu ancien noyau)
+- Packet Filter (PF) de OpenBSD
+- IPFilter (IPF) de BSD et Solaris
+- Ipfirewall ou IPFW de FreeBSD
+- iSafer pour Windows
+
+- Smoothwall Express => Linux
+	- Admin. web
+	- Etat machine sur pare feu (Mémoire + Dd)
+	- Supervision trafic
+	- Proxy 
+	- Dhcp / Dns / Ntp (Temps)
+	- SSH
+	- Détection intrusion
+	- VPN IPSec
+	- Filtrage (Par état)
+	- NAT
+	- Priorité trafic & QoS (Qualité of Service)
+	- Logs
+	- MAJ
+- IPCop => Linux
+	-  Pas de proxy
+	- Supporte le VLAN trunking
+	- Supporte telnet
+	- Pas de supervision de trafic en temps réeel
+	- Ajout d'add-on possible
+	- A peu près similaire à Smoothwall 
+-  Vyatta Community Edition
+	- Basé sur le noyau Debian
+	- Services de haute disponiblitié
+	- Beaucoup de services de routage
+	- VPN / SSL ...
+	- IPS (Système de prévention d'intrusion) à la place d'un IDS (Système de détection d'intrusions)
+
+- M0n0wall
+	- OS pare-feu sur le noyau FreeBSD et non Linux
+	- Démarre à partir d'une séquence de boot basée sur des fichiers d'extension .php et non shell classique
+	- Stock toute sa config dans un .xml
+	- Limitté dans les fonctionalités (Pas IDS/  IPS / FTP / Proxy / Serv. temps...)
+	- Présence SNMP (?)
+	- Filtrage inspiré du pare-feu logiciel FreeBSD, utilisant "IPFW" (plus complet que le reste des FreeBSD).
+- PFSense => Linux
+	- Descendant de m0n0wall : OS basé sur FreeBSD aussi, et comporte le OPFW...
+	- CARP (Common Address Redundency Protocol) 
+	- PFsyn (Syncrhonisation entre machines PFSense)
+	- Possibilité d'Alias étendue
+	- XML syncrhonisé entre maître et hôte de backup (point d'admin pour un cluster)
+	- Load Balancing entre trafic entrant et sortant
+	- Graphes de files d'attentes
+	- SSH
+	- Interfaces WAN
+	- Serveur PPPoE
+- NuFW  (Pare-feu identifiant) => Windows
+	- Pare-feu logiciel
+	- Extension iptables Netfilter (pare feu linux)
+	- Authentification filtrage classiques
+	- Nécessite des clients pour l'authentification auprès du pare-feu.
+- Shorewall => Linux
+	- Utilise la connexion Netfilter pour traquer facilement le filtrage
+	- Supporte une grande variété de routeur / Firewall...
+	- Admin centralisé
+	- Interface GUI web
+	- Support FAI
+	- Supporte le masquage & le port forwarding
+	- Supporte le VPN 
+- UFW (Uncomplicated Firewall)
+	- Pare feu par défaut pour les serveurs Ubuntu
+	- Supporte l'IPV6
+	- Fonctionnalités de login étuendues
+	- Monitoring
+	- Peut-être couplé à des applis
+	- Ajouter / Retirer des règles selon les nécessités
+- Vuurmuur :=> Linux
+	- IPV6
+	- Règlement sur le trafic
+	- Monitoring
+	- Règlage de la bande passante
+	- NAT facilement
+	- Anti-Spoofing 
+- Endian :
+	- Firewall 'Bidirectionnel'
+	- Détecte les intrusions
+	- Peut sécuriser les serv web avec des Proxy HTTP / FTP / Antivirus / URL blakcklist
+	- Peut sécuriser les serv mail avec SMPT, POP3 proxies...
+	- VPN avec IPSec
+	- Logs sur le trafic
+- ConfigServer Security Firewall 
+	- daemon process LFD (Login Failure Daemon) qui regarde les échecs de logs dans les services "fragiles"
+	- Configure des email alert si quelque chose est détecté, ou si il y a une instrusion
+	- Peut-être facilement intégré avec des panneaux de contrôles comme "cPanel, Direct Admin ou Webmin".
+	- Notifie par mail l'utsage de ressources excessives"
+	- système avancé pour détecter l'intrusion
+	- Facile à utiliser (démarage/ Stop...)
+
+**Récapitulatif** :
+
+https://saboursecurity.wordpress.com/2010/12/30/quelques-solutions-pare-feu-open-source/
+
+
+## 7 - Firewall de new generation :
+
+Un peu de lexique :
+- UTM = Technologies clé en main (outils prêts à l'emploi), protection des email, sécu des points d'accès wifi, VPN
+- NGFW (Next Generation Firewall) : Firewall (filtrage DPI) accompagnés de détection d'intrusion (IPS) & contrôle app web (filtrage URL), techniques manuelles
+
+![](https://www.watchguard.com/sites/default/files/ngfw-utm-scale_fr.png)
+
+\\!/ La plupart des UTM surpassent des solutions NGFW.
+
+
+De nos jours (La cinquième génération),  le pare-feu doit être proche de l'utilisateur et de son poste de travail, afin de pouvoir faire des **analyses comportementales** de l'usage de ses outils et de ses applis.  Pour y contribuer, on conçoit des pare-feu bien spécifique, appellé "Nouvelles génération" (NFGW)
+
+Un pare-feu de nouvelle génération doit comporter :
+- Base :
+	- "FW, SPI, VPN (chiffrement et accélération) IPSEC / SSL / L2TP / PPPoE / PPPoA / GRE..., Xauth, PKI (...), IDS/IPS, routage, VRRP, Multicast, Filtrage Web, Mail Security, Antivirus, NAT, VoIP "Hybrid networking", Proxy, load sharing, cache, teleprovisionning, streaming, Client logiciel basique, connecteurs Tacacs, LDAP, Radius..."
+- Avancé :
+	- "Reconnaissance applicative, gestion de l'identité, Data Loss Prevention (DLP), routage avancé et QoS, Corrélation d'information dynamique et consolidation de rapports automatiques et personnalisables pour plusieurs milliers de pare-feu simultanément... (couplé avec des fonctions de monitoring, supervision et alerting évolué), Chiffrement intégrale des postes de travail, client logiciel évolué de plus en plus multifonctions, virtualisation..."
+
+Conclusion 
+- Plus un pare feu, mais un ensemble d'élements de sécurité permettant de garantir un niveau de sécurité admissible en fonction **du profil, des infrastructures, des terminaux...**
+
+## 8 - Les ACL :
+
+- Liste de règles permettant de filtrer / autoriser trafic
+- Autoriser ou bloquer
+- Une ACL par interface et par sens
+- Analisé par L'IOS de manière séquencielle
+- ACL bloque par défaut tout le trafic
+
+
+On retrouve
+- ACL Standard : En fonction de l'@ IP source
+- ACL Etendues :  IP Sources / Dest / Protocoles / Port
+
+
+Rappel  des commandes : https://www.ciscomadesimple.be/wp-content/uploads/2011/06/CMSBE_F04_ACL.pdf
+
+## 9 - Les types de défenses (zone)
+
+- Défense périmétrique :
+	- Bloquer au moyen de pare-feux & règles routages accès non autoriés & aux systèmes de l'entreprise
+MAIS INSUFISANT à cause de la volatilité du périmètre, on doit la compléter par une **défense en profondeur**
+- Ordi inconnues -> Cantonnés dans un sous-réseau virtuel aux droits limités
+- Utilisateurs sensibles pas admins de leurs ordis
+- Connexions aux serveurs ne sont pas autorisés avec des comptes privilégiés ni à distance
+- Utiliser des systèmes d'authentification comme Kerberos.
+
+## 10 - DMZ
+
+DMZ : Zone démitilarisée, est un sous-réseau séparé du réseau local  par un pare-feu, qui contient une zone de service, qui peut-être d'ordre applicatif (web, messagerie) ou sécurités (proxy / reverse proxy), contant les machines susceptibles d'être accédées depuis l'internet.
+
+Ainsi, si un pirate compromet l'un des services dans la DMZ, le pirate n'aura accès qu'aux machines de la DMZ et non au réseau local, en vue que le pare-feu bloque les accès au réseau local.
+
+![](https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Demilitarized_Zone_Diagram.png/290px-Demilitarized_Zone_Diagram.png)
+
+
+
