@@ -3,27 +3,27 @@
 ## Mots clés :
 
 * DMZ : zone démilitarisée: 
-* Pare-feu :
-* NGFW :
-* SI :
-* DSI :
+* Pare-feu : 
+* NGFW : next gen firewall, fw + detection d'intrusion
+* SI : système d'information
+* DSI : directeur des systèmes d'information
 * Carte heuristique :
 * Firewalling :
-* Access list :
+* Access list : liste perettant l'accès (ou non accès)
 * Système de gestion unifiée :
-* Sécurisation périmétrique :
-* Sécurité en profondeur :
+* Sécurisation périmétrique : on bloque ce qui n'est pas autorisé
+* Sécurité en profondeur : on prévoit que l énemi est entré
 * ASA :
-* UTM :
+* UTM : unified thread managment
 * Fortinet :
 * Net filter :
 * Appliance :
-* IP table :
+* IP table : fw
 * Kerio :
 * check point :
-* Pfsense :
-* IPCop :
-* IPFire :
+* Pfsense : fw
+* IPCop : fw
+* IPFire : fw
 
 ## Contexte :
 
@@ -80,7 +80,63 @@ Sécurité
 
 #### **ACLs**
 
+Une ACL est une liste de règles permettant de filtrer ou d’autoriser du trafic sur un réseau en fonction de
+certains critères (IP source, IP destination, port source, port destination, protocole
+
+Elle peut servir à autoriser le trafic ou à le bloquer (whitelist/ blacklist)
+On peut en appliquer une par interface et par sens au max
+
+il existe 2 ype d'ACL les standard et les étendues : 
+* les standards analysent le trafic en fonction de l'IP source, on les appliques le plus porche poosble de la destination
+* les étendues qui analysent le trafic en foncton de l'IP source, ip destination, protocole, port source, port destination 
+
+config :
+
+acl numérique
+
+	R1(config)#access-list [n°] permit [adress] [wildcard]
+	R1(config)#access-list [n°] deny [adress] [wildcard] 
+	R1(config)#access-list [n°] permit any
+
+n°: 1-99 1300-1999 standard, 100-199 2000-2699	étendue
+
+acl nommée
+
+	R1(config)#ip access-list standard monACL
+	R1(config-std-nacl)#permit [adresse] [wildcard]
+verif
+
+	R1#show access-lists
+
+conf acl étendue:
+
+	R1(config)#access-list 100 permit tcp any host 192.168.1.100 eq 80
+	R1(config)#access-list 100 permit icmp 192.168.0.0 0.0.0.255 host 192.168.1.100
+	
+
+ajouter une règle
+
+	R1(config-std-nacl)#15 permit 192.168.1.0 0.0.0.127
+appliquer une acl à une interface : 
+
+	R1(config-if)#ip access-group 1 in
+OU
+	
+		R1(config-if)#ip access-group 1 out
+	
 #### **NGFW**
+
+next generation firewall
+
+firewalls avec détection d'intrusion et contrôle d'applications web 
+
+(et au passage: Unified thread Managment  protection d'email, sécu point to point wifi, VPN et en général un NGFW)
+
+![](picsNico/ngfwutm.png)
+
+ex: Sophos XG firewall
+
+
 
 #### **Firewalls (fonctionnement)**
 
@@ -185,7 +241,49 @@ inc:
 * nécessite une admin système en plus
 
 
+liste de firewalls:
 
+libres :
+
+* **Iptables**, linux 2.4 et + : rapide, ajout de règles
+* Ipchains, linux 2.2
+* Packet Filter (PF) d'openBSD
+* IPFilter (IPF), BSD et Solaris 10 et 11
+* IPfirewall (IPFW), freeBSD
+* iSafer, windows
+
+distrib linux:
+
+* SmoothWall
+* **IPCop** : monitoring+ FW, interface web
+* Ipfire : fw, proxy, VP gateway, détection d'intrusion, wiki pour support
+* Pfsense : très souple (config) 
+* Zeroshell
+* Amon
+* Shorewall: interface web, supporte VPN, admin centralisée
+* Uncomplicated Firewall (UFW): supporte ipv6, ajout de règles
+* Vuurmuur : ipv6, NAT, real time monitoring, anti-spoofing
+* Endian : bidirectionnel
+
+Personnels:
+
+* Comodo firewall
+* Zone alarm
+* Netbarrier
+* Microsoft :
+	* Pare-feu de connexion internet de Windows XP
+	* Windows firewall
+	* Microsoft Internet Security and Scceleration Server
+* Jetico personnal firewall
+
+Applicatifs:
+
+* Microsoft Internet Security and Scceleration Server, pare-feu proxy cache de MS
+* Modsecurity, module pour serveur web apache
+
+Physiques:
+
+[liste](https://en.wikipedia.org/wiki/List_of_router_and_firewall_distributions)
 
 #### **DMZ**
 
@@ -208,12 +306,25 @@ Si le pare feu est compromis plus rien n'est sécurisé on peut donc en mettre e
 
 #### **Différents périmètres de défense**
 
+défense périmétrique : bloquer avec un pare feu et règles de routage les accès non autorisés
 
+défense en profondeur : né chez les militaires, on se pare à 'éventualité que l'ennemi à franchi les défense. On va donc :
+
+* isoler les pc inconnus dans un sous-réseau virtuel aux droits d'accès limité
+* empêcher les utilisateurs de systèmes sensibles d'être admin de leurs ordis
+* bloquer l'accès aux serveurs sensibles à des comptes privilégies ou aux connexions distants 
+* utiliser des systèmes d’authentification robustes (ex : Kerberos) 
 
 ### Réalisations
 
 #### **Définir les critères du firewall**
 
+https://distrowatch.com/search.php
+
 #### **Comparer les pare-feux**
 
+cf dans pare-feu
+
 #### **Configurer le pare-feu (packet-tracer)**
+
+
