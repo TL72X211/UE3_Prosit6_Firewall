@@ -103,7 +103,7 @@ Dès qu'une règle correspond au trafic, l'action est appliquée (deny ou permit
  OU  
  R1(config-if)#ip access-group *numéroOuNomdeL'ACL* out = ACL appliquée en sortie
 
-####**NGFW**
+#### **NGFW**
 NGFW = New Generation FireWall & UTM = Unified Threat Management  
 Ces deux termes désignes deux types de protection réseau, le premier plus personnalisable, le second plus simplement administrable et déployable.  
 NGFW ont les fonctionnalités suivantes :
@@ -117,7 +117,7 @@ NGFW ont les fonctionnalités suivantes :
 * Antivirus
 * Antispam
 
-####**Firewalls (fonctionnement)**
+#### **Firewalls (fonctionnement)**
 Les différents types de filtrage :
 	 * Le filtrage simple de paquet (Stateless) :  
 	 Méthode la plus simple, opère sur la couche réseau et la couche transport. Consiste à accorder le passage ou a le refuser à un paquet en se basant sur : l'IP source/destination, le numéro de port source/destination, le protocole utilisé. On utilise pour cela les ACL.  
@@ -155,12 +155,12 @@ Les différents types de firewall :
 Les différents types d'attaques :
 [Site](http://www.frameip.com/firewall/#4-8211-attaques-outils-defenses) contenant des informations diverses sur les types d'attaques et les mode de découverte des routeurs sur un réseau
 
-####**DMZ**
+#### **DMZ**
 Demilitarized Zone : Contient les services (souvent serveurs) devant pouvoir être accédés depuis internet (serveur WEB, serveur de messagerie). Séparés du réseau interne de l'entreprise qui lui doit rester inaccessible depuis l'extérieur.  
 On configure donc le pare-feu de manière à ce qu'il ne laisse pas passer les paquets en direction du réseau internet et qu'on laisse entrer les paquets (après vérification) dans la zone démilitarisée.
 
 
-####**Différents périmètres de défense**
+#### **Différents périmètres de défense**
 Défense périmétrique : Consiste à bloquer grâce à des pare-feux et de règles de routage les accès non autorisées au réseau et aux systemes de l'entreprise. Avec la prolifération des nouveaux équipements de connexion au réseau (ordi portable, smartphone, tablettes, ...) cette protection est désormais insuffisante.
 
 Défense en profondeur : Listes de précaution à prendre pour arréter une intrusion après qu'elle est passé le périmètre extérieur (ce qui fini **toujours** par arriver) :
